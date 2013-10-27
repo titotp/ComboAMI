@@ -3,11 +3,6 @@
 # Current as of 12/20/2012
 ### Script provided by DataStax.
 
-if [ ! -f cert-*.pem ];
-then
-    echo "Cert files not found on machine!"
-    exit
-fi
 
 # Download and install repo keys
 gpg --keyserver pgp.mit.edu --recv-keys 2B5C1B00
