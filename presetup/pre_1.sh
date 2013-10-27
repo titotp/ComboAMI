@@ -22,7 +22,7 @@ git config --global color.ui auto
 git config --global color.diff auto
 git config --global color.status auto
 #git clone git://github.com/riptano/ComboAMI.git datastax_ami
-git clone git@github.com:titotp/ComboAMI.git datastax_ami
+git clone https://github.com/titotp/ComboAMI.git datastax_ami
 cd datastax_ami
 git checkout $(head -n 1 presetup/VERSION)
 
