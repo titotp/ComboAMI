@@ -75,6 +75,9 @@ def install_software():
     os.chdir(home_path)
     exe('rm -rf cassandra/')
 
+    # Update Java alternatives
+ #   exe('sudo update-alternatives --install "/usr/bin/java" "java" "/opt/java/64/jdk1.6.0_31/bin/java" 1')
+ #   exe('sudo update-alternatives --set java /opt/java/64/jdk1.6.0_31/bin/java')
 
 # Fixed in ds1:setup_profile() for AMI 2.4
 def setup_profiles():
