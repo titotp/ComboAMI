@@ -121,6 +121,10 @@ def get_ec2_data():
     req = curl_instance_data('http://169.254.169.254/latest/meta-data/local-ipv4')
     instance_data['internalip'] = urllib2.urlopen(req).read()
 
+    # Find external IP address for seed list
+    req = curl_instance_data('http://169.254.169.254/latest/meta-data/public-ipv4')
+    instance_data['externalip'] = urllib2.urlopen(req).read()
+
     # Find public hostname for JMX
     req = curl_instance_data('http://169.254.169.254/latest/meta-data/public-hostname')
     instance_data['publichostname'] = urllib2.urlopen(req).read()
@@ -511,6 +515,10 @@ def construct_yaml():
     p = re.compile('seeds:.*')
     yaml = p.sub('seeds: "{0}"'.format(seeds_yaml), yaml)
 
+    # Set broadcast_address
+    p = re.compile('broadcast_address:.*')
+    yaml = p.sub('broadcast_address: {0}'.format(instance_data['externalip']), yaml)
+
     # Set listen_address
     p = re.compile('listen_address:.*')
     yaml = p.sub('listen_address: {0}'.format(instance_data['internalip']), yaml)
@@ -518,6 +526,7 @@ def construct_yaml():
     # Set rpc_address
     p = re.compile('rpc_address:.*')
     yaml = p.sub('rpc_address: 0.0.0.0', yaml)
+
 
     # Uses the EC2Snitch for Community Editions
     if conf.get_config("AMI", "Type") == "Community":
