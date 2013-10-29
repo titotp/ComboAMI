@@ -2,6 +2,7 @@
 # Via: http://cloud-images.ubuntu.com/locator/ec2/: "instance-store amd64 LTS 12.04"
 # Current as of 12/20/2012
 ### Script provided by DataStax.
+### Last Modified by Tito Panicker www.titopanicker.net
 
 
 # Download and install repo keys
@@ -10,8 +11,6 @@ gpg --export --armor 2B5C1B00 | sudo apt-key add -
 wget -O - http://installer.datastax.com/downloads/ubuntuarchive.repo_key | sudo apt-key add -
 wget -O - http://debian.datastax.com/debian/repo_key | sudo apt-key add -
 
-# Prime for Java installation
-sudo echo "sun-java6-bin shared/accepted-sun-dlj-v1-1 boolean true" | sudo debconf-set-selections
 
 # Install Git
 sudo apt-get -y update
@@ -27,19 +26,9 @@ cd datastax_ami
 git checkout $(head -n 1 presetup/VERSION)
 
 # Install Java
-sudo su
-wget https://s3.amazonaws.com/ds-java/jdk-6u38-linux-x64.bin
-mkdir -p /opt/java/64
-mv jdk-6u38-linux-x64.bin /opt/java/64/
-cd /opt/java/64
-chmod +x jdk*
-./jdk*
-
-# Setup java alternatives
-exit
-sudo update-alternatives --install "/usr/bin/java" "java" "/opt/java/64/jdk1.6.0_38/bin/java" 1
-sudo update-alternatives --set java /opt/java/64/jdk1.6.0_38/bin/java
-export JAVA_HOME=/opt/java/64/jdk1.6.0_38
+sudo FORCE_ADD_APT_REPOSITORY=1 add-apt-repository ppa:webupd8team/java
+sudo apt-get update && sudo apt-get install oracle-jdk7-installer
+sudo update-java-alternatives -s java-7-oracle
 
 # Begin the actual priming
 git pull

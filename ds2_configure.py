@@ -516,7 +516,7 @@ def construct_yaml():
     yaml = p.sub('seeds: "{0}"'.format(seeds_yaml), yaml)
 
     # Set broadcast_address
-    p = re.compile('broadcast_address:.*')
+    p = re.compile('# broadcast_address:.*')
     yaml = p.sub('broadcast_address: {0}'.format(instance_data['externalip']), yaml)
 
     # Set listen_address
